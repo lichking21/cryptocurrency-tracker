@@ -51,56 +51,6 @@ async fn get_coin_data(coin_ids: &Vec<String>) -> Result<HashMap<String, PriceIn
     Ok(data)
 }
 
-#[allow(dead_code)]
-fn save_coin_data(data: &HashMap<String, PriceInfo>, coin_ids: &Vec<String>) -> Result<(), rusqlite::Error> {
-
-    let conn = Connection::open("coins.db")?;
-
-    conn.execute(
-        "CREATE TABLE IF NOT EXISTS coins (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL UNIQUE,
-            price REAL,
-            last_updated INTEGER,
-            last_24h_change REAL
-        )",
-        [],
-    )?;
-
-    for coin in coin_ids {
-
-        if let Some(info) = data.get(coin) {
-
-            conn.execute(
-
-                "INSERT OR REPLACE INTO coins (name, price, last_updated, last_24h_change) VALUES (?1, ?2, ?3, ?4)",
-                params![coin, info.usd, info.last_updated_at, info.usd_24h_change],
-            )?;
-        }
-    }    
-
-    Ok(())
-}
-
-#[allow(dead_code)]
-fn load_coin_data() -> Result<()> {
-
-    let conn = Connection::open("coins.db")?;
-
-    let mut stmt = conn.prepare("SELECT name, price FROM coins")?;
-    let coin_iter = stmt.query_map([], |row| {
-        Ok((row.get::<_, String>(0)?, row.get::<_, f64>(1)?))
-    })?;
-
-    println!("--- Saved Coin Prices ---");
-    for coin in coin_iter {
-        let (name, price) = coin?;
-        println!("{}: ${:.2}", name, price);
-    }
-
-    Ok(())
-}
-
 #[get("/api/crypto")]
 async fn fetch_coin_data(data: web::Data<AppState>) -> impl Responder {
 
