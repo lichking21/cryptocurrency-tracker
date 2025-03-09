@@ -1,0 +1,70 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #333;
+    --card-bg: #f9f9f9;
+    --green: #4caf50;
+    --red: #e74c3c;
+}
+
+.dark-theme {
+    --bg-color: #1e1e1e;
+    --text-color: #ffffff;
+    --card-bg: #333;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background 0.3s, color 0.3s;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+    background-color: var(--card-bg);
+}
+
+button {
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    padding: 8px 12px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+#crypto-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    padding: 20px;
+}
+
+.crypto-card {
+    background: var(--card-bg);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 200px;
+    text-align: center;
+}
+
+.price-change {
+    font-weight: bold;
+}
+
+.up {
+    color: var(--green);
+}
+
+.down {
+    color: var(--red);
+}
